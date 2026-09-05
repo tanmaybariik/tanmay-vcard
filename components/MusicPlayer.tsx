@@ -154,19 +154,24 @@ export default function MusicPlayer() {
   }, [currentSong, player, activeLang, playlists]);
 
   const handlePlay = (song: typeof currentSong) => {
+    const silentAudio = document.getElementById('silent-audio') as HTMLAudioElement;
+
     if (currentSong.id === song.id) {
       if (isPlaying) {
         player?.pauseVideo();
         setIsPlaying(false);
+        silentAudio?.pause();
       } else {
         player?.playVideo();
         setIsPlaying(true);
+        silentAudio?.play().catch(() => {});
       }
     } else {
       setCurrentSong(song);
       setIsPlaying(true);
       setCurrentTime(0);
       setDuration(0);
+      silentAudio?.play().catch(() => {});
     }
   };
 
@@ -175,9 +180,16 @@ export default function MusicPlayer() {
   };
 
   const onStateChange: YouTubeProps['onStateChange'] = (event) => {
+    const silentAudio = document.getElementById('silent-audio') as HTMLAudioElement;
     // 1 is playing, 2 is paused, 0 is ended
-    if (event.data === 1) setIsPlaying(true);
-    if (event.data === 2) setIsPlaying(false);
+    if (event.data === 1) {
+      setIsPlaying(true);
+      silentAudio?.play().catch(() => {});
+    }
+    if (event.data === 2) {
+      setIsPlaying(false);
+      silentAudio?.pause();
+    }
     if (event.data === 0) {
       // Auto-play next song
       const list = playlists[activeLang];
@@ -617,6 +629,14 @@ export default function MusicPlayer() {
         </div>,
         document.body
       )}
+
+      {/* Silent Audio element to keep the Audio context active for iOS/Android when screen is locked */}
+      <audio 
+        id="silent-audio" 
+        loop 
+        playsInline 
+        src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=" 
+      />
     </>
   );
 }
