@@ -12,7 +12,7 @@ export default function LoadingScreen() {
     // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1800);
+    }, 600); // reduced from 1800 to 600
     return () => clearTimeout(timer);
   }, []);
 
@@ -24,7 +24,7 @@ export default function LoadingScreen() {
         <motion.div
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, filter: "blur(10px)", scale: 1.05 }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }} // reduced from 0.8 to 0.3
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050812]"
         >
           {/* Blue radial light behind logo */}

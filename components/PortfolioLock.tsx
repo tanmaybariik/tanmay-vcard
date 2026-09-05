@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Lock, Unlock, X } from 'lucide-react';
+import { Lock, Unlock, X, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function PortfolioLock() {
@@ -24,21 +24,23 @@ export default function PortfolioLock() {
 
   return (
     <>
-      <motion.div 
+      <button 
         onClick={() => setIsOpen(true)}
-        whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.06)" }}
-        whileTap={{ scale: 0.94 }}
-        className="w-full bg-white/[0.03] backdrop-blur-[60px] border border-white/[0.08] rounded-[20px] p-[18px] cursor-pointer transition-all flex items-center justify-between group shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
-        style={{ boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.25)' }}
+        className="group block w-full bg-[#1C2333]/40 border border-[#3B82F6]/20 hover:border-[#3B82F6]/50 p-5 sm:p-6 rounded-[24px] shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-md transition-all active:scale-[0.98] text-left"
       >
-        <div>
-          <h2 className="text-[12px] font-bold tracking-[0.15em] text-white flex items-center gap-2 uppercase">
-            <Lock className="w-4 h-4 text-[#8F9BB3] group-hover:text-white transition-colors" />
-            Professional Life
-          </h2>
-          <p className="text-[11px] text-[#6B7A99] mt-1.5">Enter password to unlock my portfolio</p>
+        <div className="flex items-center gap-4">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#3B82F6]/20 border border-[#3B82F6]/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+            <Lock className="w-5 h-5 sm:w-6 sm:h-6 text-[#3B82F6]" />
+          </div>
+          <div className="flex-1 min-w-0 pr-2">
+            <h3 className="text-[15px] sm:text-[16px] font-bold text-white tracking-wide mb-1.5 truncate">PROFESSIONAL LIFE</h3>
+            <p className="text-[13px] sm:text-[14px] text-[#8F9BB3] leading-[1.6] break-words">Enter password to unlock my portfolio</p>
+          </div>
+          <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-white/10 transition-colors">
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-white/70 group-hover:text-white transition-colors" />
+          </div>
         </div>
-      </motion.div>
+      </button>
 
       <AnimatePresence>
         {isOpen && (
@@ -46,22 +48,23 @@ export default function PortfolioLock() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0a0a0c]/60 backdrop-blur-[60px]"
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-[#050812]/90 backdrop-blur-md"
           >
             <motion.div 
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white/[0.03] backdrop-blur-[60px] border border-white/[0.1] rounded-[32px] p-8 w-full max-w-[340px] shadow-[0_8px_32px_rgba(0,0,0,0.5)] relative"
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="bg-[#0A0D18]/95 border border-[#3B82F6]/20 rounded-[32px] p-8 w-full max-w-[340px] shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative"
             >
               <button 
                 onClick={() => setIsOpen(false)}
-                className="absolute top-5 right-5 p-2 rounded-full bg-[rgba(255,255,255,0.05)] text-white hover:bg-[rgba(255,255,255,0.1)] transition"
+                className="absolute top-5 right-5 p-2 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 active:scale-95 transition-all"
               >
                 <X className="w-4 h-4" />
               </button>
               
-              <div className="w-16 h-16 rounded-full bg-[rgba(59,130,246,0.15)] border border-[rgba(59,130,246,0.3)] flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+              <div className="w-16 h-16 rounded-full bg-[#3B82F6]/10 border border-[#3B82F6]/20 flex items-center justify-center mx-auto mb-6 shadow-[0_0_20px_rgba(59,130,246,0.2)]">
                 {success ? <Unlock className="w-7 h-7 text-[#22C55E]" /> : <Lock className="w-7 h-7 text-[#3B82F6]" />}
               </div>
               
@@ -72,7 +75,7 @@ export default function PortfolioLock() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password..."
-                className={`w-full bg-[rgba(0,0,0,0.3)] border ${error ? 'border-[#EA4335] animate-pulse' : 'border-[rgba(255,255,255,0.1)]'} rounded-[16px] px-5 py-4 text-[14px] text-white focus:outline-none focus:border-[#3B82F6] transition-colors mb-4`}
+                className={`w-full bg-[#050812]/50 border ${error ? 'border-[#EA4335] animate-pulse' : 'border-white/10'} rounded-[16px] px-5 py-4 text-[14px] text-white focus:outline-none focus:border-[#3B82F6]/50 transition-colors mb-4 placeholder-[#6B7A99]`}
               />
               
               <div className="h-4 mb-4 flex items-center justify-center">
@@ -82,7 +85,7 @@ export default function PortfolioLock() {
               
               <button 
                 onClick={handleUnlock}
-                className="w-full bg-gradient-to-r from-[#3B82F6] to-[#2563EB] text-white font-bold tracking-widest text-[13px] rounded-[16px] py-4 hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all"
+                className="w-full bg-[#3B82F6]/20 border border-[#3B82F6]/30 text-white font-bold tracking-widest text-[13px] rounded-[16px] py-4 hover:bg-[#3B82F6]/30 hover:border-[#3B82F6]/50 active:scale-[0.98] transition-all shadow-[0_0_15px_rgba(59,130,246,0.15)]"
               >
                 UNLOCK
               </button>

@@ -1,6 +1,5 @@
 'use client';
 import { Mail } from 'lucide-react';
-import { motion, Variants } from 'framer-motion';
 
 const FacebookIcon = ({ className, style }: { className?: string, style?: React.CSSProperties }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>;
 const InstagramIcon = ({ className, style }: { className?: string, style?: React.CSSProperties }) => <svg xmlns="http://www.w3.org/2000/svg" className={className} style={style} viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>;
@@ -19,54 +18,44 @@ const links = [
   { name: 'Email', icon: Mail, url: 'mailto:tanmaybaarik@gmail.com', color: '#EA4335' }
 ];
 
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.4 }
-  }
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 15, scale: 0.96 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
-};
-
 export default function SocialLinks() {
   return (
-    <div className="w-full">
-      <h2 className="text-[10px] font-bold tracking-[0.1em] text-[#6B7A99] mb-[10px] pl-4 uppercase">CONNECT WITH ME</h2>
+    <div className="w-full mt-2">
+      <h2 className="text-[11px] font-bold tracking-[0.15em] text-[#A2C7EE] mb-4 pl-1 uppercase opacity-90">
+        CONNECT WITH ME
+      </h2>
       
-      <motion.div 
-        variants={containerVariants}
-        initial="hidden"
-        animate="show"
-        className="flex flex-col gap-[12px]"
-      >
+      <div className="flex flex-col gap-3">
         {links.map((link) => (
-          <motion.a
-            variants={itemVariants}
-            whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.06)" }}
-            whileTap={{ scale: 0.94 }}
+          <a
             key={link.name}
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full h-14 px-4 rounded-[20px] flex items-center justify-start group bg-white/[0.03] border border-white/[0.08] backdrop-blur-[60px] transition-all overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.25)]"
-            style={{ boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.25)' }}
+            className="group relative w-full h-16 rounded-[24px] flex items-center px-5 bg-[#1C2333]/40 backdrop-blur-md border border-[#3B82F6]/20 hover:bg-[#1C2333]/60 hover:border-[#3B82F6]/50 active:scale-[0.98] transition-all duration-300 ease-out overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.15)]"
           >
-            <div className="flex items-center gap-4 overflow-hidden min-w-0 w-full">
-              <div className="w-8 min-w-[32px] flex items-center justify-start shrink-0">
-                <link.icon 
-                  className="w-[22px] h-[22px] transition-colors duration-300 drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]" 
-                  style={{ color: link.color }} 
-                />
-              </div>
-              <span className="text-[15px] font-medium text-white group-hover:text-white transition-colors truncate">{link.name}</span>
+            {/* Background Hover Glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            
+            {/* Icon Container */}
+            <div className="relative z-10 w-8 h-8 rounded-full flex items-center justify-center shrink-0 mr-4 group-hover:scale-110 transition-transform duration-300">
+              <div 
+                className="absolute inset-0 rounded-full opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-300" 
+                style={{ backgroundColor: link.color }} 
+              />
+              <link.icon 
+                className="w-[20px] h-[20px] relative z-10" 
+                style={{ color: link.color }} 
+              />
             </div>
-          </motion.a>
+
+            {/* Name */}
+            <span className="relative z-10 text-[15px] font-semibold text-white/90 group-hover:text-white transition-colors flex-1">
+              {link.name}
+            </span>
+          </a>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
