@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { RotateCcw } from 'lucide-react';
 
@@ -13,7 +13,16 @@ type Card = {
 };
 
 export default function MemoryMatch() {
-  const [cards, setCards] = useState<Card[]>([]);
+  const [cards, setCards] = useState<Card[]>(() => {
+    return [...EMOJIS, ...EMOJIS]
+      .sort(() => Math.random() - 0.5)
+      .map((emoji, index) => ({
+        id: index,
+        emoji,
+        isFlipped: false,
+        isMatched: false,
+      }));
+  });
   const [flippedIndices, setFlippedIndices] = useState<number[]>([]);
   const [moves, setMoves] = useState(0);
   const [isLocked, setIsLocked] = useState(false);
@@ -34,37 +43,36 @@ export default function MemoryMatch() {
     setIsLocked(false);
   };
 
-  useEffect(() => {
-    initGame();
-  }, []);
-
   const handleCardClick = (index: number) => {
     if (isLocked || cards[index].isFlipped || cards[index].isMatched) return;
 
-    const newCards = [...cards];
-    newCards[index].isFlipped = true;
-    setCards(newCards);
-
     const newFlipped = [...flippedIndices, index];
     setFlippedIndices(newFlipped);
+
+    setCards((prev) => 
+      prev.map((c, i) => (i === index ? { ...c, isFlipped: true } : c))
+    );
 
     if (newFlipped.length === 2) {
       setIsLocked(true);
       setMoves((m) => m + 1);
       
       const [first, second] = newFlipped;
-      if (newCards[first].emoji === newCards[second].emoji) {
-        newCards[first].isMatched = true;
-        newCards[second].isMatched = true;
-        setCards(newCards);
+      if (cards[first].emoji === cards[second].emoji) {
+        setCards((prev) =>
+          prev.map((c, i) =>
+            i === first || i === second ? { ...c, isMatched: true } : c
+          )
+        );
         setFlippedIndices([]);
         setIsLocked(false);
       } else {
         setTimeout(() => {
-          const resetCards = [...newCards];
-          resetCards[first].isFlipped = false;
-          resetCards[second].isFlipped = false;
-          setCards(resetCards);
+          setCards((prev) =>
+            prev.map((c, i) =>
+              i === first || i === second ? { ...c, isFlipped: false } : c
+            )
+          );
           setFlippedIndices([]);
           setIsLocked(false);
         }, 1000);

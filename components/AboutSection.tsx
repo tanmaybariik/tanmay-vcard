@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ArrowRight, GraduationCap, X, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';

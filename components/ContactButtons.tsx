@@ -1,5 +1,5 @@
 'use client';
-import { Phone, MessageCircle, Mail } from 'lucide-react';
+import { Phone, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function ContactButtons() {

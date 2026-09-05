@@ -1,7 +1,7 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Gamepad2, ArrowRight, X, Play, ArrowLeft, ExternalLink } from 'lucide-react';
+import { Gamepad2, X, Play, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -110,7 +110,7 @@ const GamesHub = React.memo(function GamesHub() {
                         style={{ boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.05), 0 8px 32px rgba(0,0,0,0.25)' }}
                       >
                         <div className="absolute inset-0 w-full h-[65%]">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          { }
                           <Image 
                             src={game.image} 
                             alt={game.name} 

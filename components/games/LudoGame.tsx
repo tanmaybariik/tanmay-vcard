@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RotateCcw, Dices } from 'lucide-react';
 
+const getRandomDice = () => Math.floor(Math.random() * 6) + 1;
+
 const TRACK_LENGTH = 28;
 // Generate an 8x8 perimeter track
 const generateTrack = () => {
@@ -39,11 +41,11 @@ export default function LudoGame() {
     
     // Fast flash animation for dice
     for (let i = 0; i < 10; i++) {
-      setDiceValue(Math.floor(Math.random() * 6) + 1);
+      setDiceValue(getRandomDice());
       await new Promise(r => setTimeout(r, 50));
     }
     
-    const finalRoll = Math.floor(Math.random() * 6) + 1;
+    const finalRoll = getRandomDice();
     setDiceValue(finalRoll);
     setIsRolling(false);
 
@@ -56,7 +58,7 @@ export default function LudoGame() {
       // Need exactly the right roll to finish, or just simple overshoot?
       // Let's keep it simple: stop exactly at TRACK_LENGTH, ignore if overshoot.
       if (redProgress + roll <= TRACK_LENGTH) {
-        let newProgress = redProgress + roll;
+        const newProgress = redProgress + roll;
         const newBoardIndex = newProgress === TRACK_LENGTH ? -1 : newProgress % TRACK_LENGTH;
         
         // Capture blue?
@@ -74,7 +76,7 @@ export default function LudoGame() {
       setTurn(roll === 6 ? 'red' : 'blue'); // 6 gives another turn
     } else {
       if (blueProgress + roll <= TRACK_LENGTH) {
-        let newProgress = blueProgress + roll;
+        const newProgress = blueProgress + roll;
         const newBoardIndex = newProgress === TRACK_LENGTH ? -1 : (newProgress + 14) % TRACK_LENGTH;
         
         // Capture red?

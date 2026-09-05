@@ -58,9 +58,9 @@ export default function TicTacToe() {
             {winner ? (
               <span className="text-[#3B82F6]">Player {winner} Wins!</span>
             ) : isDraw ? (
-              <span className="text-yellow-400">It's a Draw!</span>
+              <span className="text-yellow-400">It&apos;s a Draw!</span>
             ) : (
-              <span>Player {currentPlayer}'s Turn</span>
+              <span>Player {currentPlayer}&apos;s Turn</span>
             )}
           </div>
         </div>

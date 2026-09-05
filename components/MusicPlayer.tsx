@@ -1,7 +1,7 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import { ChevronDown, Music, Volume2, Play, Pause, SkipForward, SkipBack, AlignLeft, ListMusic } from 'lucide-react';
+import { ChevronDown, Volume2, Play, Pause, SkipForward, SkipBack, AlignLeft, ListMusic } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import YouTube, { YouTubeProps, YouTubePlayer } from 'react-youtube';
 import Image from 'next/image';
@@ -104,7 +104,7 @@ export default function MusicPlayer() {
           const dur = await player.getDuration();
           if (time !== undefined) setCurrentTime(time);
           if (dur !== undefined && dur > 0) setDuration(dur);
-        } catch (e) {
+        } catch {
           // ignore
         }
       }, 500);
@@ -486,10 +486,12 @@ export default function MusicPlayer() {
                                 }`}
                               >
                                 <div className={`w-14 h-14 rounded-xl flex items-center justify-center shrink-0 mr-4 overflow-hidden relative shadow-md transition-transform group-hover:scale-105 ${isActive ? 'ring-2 ring-white/50' : ''}`}>
-                                  <img 
-                                    src={`https://img.youtube.com/vi/${song.ytId}/hqdefault.jpg`} 
+                                  <Image 
+                                    src={`https://i.ytimg.com/vi/${song.ytId}/hqdefault.jpg`} 
                                     alt="Thumbnail"
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    sizes="56px"
+                                    className="object-cover"
                                   />
                                   {isActive && isPlaying && (
                                     <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center">

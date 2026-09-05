@@ -14,7 +14,7 @@ import LoadingScreen from '@/components/LoadingScreen';
 const WorldClock = dynamic(() => import('@/components/WorldClock'), { ssr: false });
 const MusicPlayer = dynamic(() => import('@/components/MusicPlayer'), { ssr: false });
 const AboutSection = dynamic(() => import('@/components/AboutSection'), { ssr: false });
-const PortfolioLock = dynamic(() => import('@/components/PortfolioLock'), { ssr: false });
+
 const GamesHub = dynamic(() => import('@/components/GamesHub'), { ssr: false });
 const VisitorCounter = dynamic(() => import('@/components/VisitorCounter'), { ssr: false });
 
