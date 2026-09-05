@@ -187,8 +187,13 @@ export default function MusicPlayer() {
       silentAudio?.play().catch(() => {});
     }
     if (event.data === 2) {
-      setIsPlaying(false);
-      silentAudio?.pause();
+      // Check if paused because screen turned off or app backgrounded
+      if (document.hidden) {
+        player?.playVideo();
+      } else {
+        setIsPlaying(false);
+        silentAudio?.pause();
+      }
     }
     if (event.data === 0) {
       // Auto-play next song
