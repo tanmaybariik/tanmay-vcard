@@ -112,6 +112,47 @@ export default function MusicPlayer() {
     return () => clearInterval(interval);
   }, [isPlaying, player]);
 
+  // Media Session API for lock screen controls
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentSong.title,
+        artist: currentSong.artist,
+        album: 'Tanmay V-Card',
+        artwork: [
+          { src: `https://i.ytimg.com/vi/${currentSong.ytId}/hqdefault.jpg`, sizes: '480x360', type: 'image/jpeg' }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => {
+        player?.playVideo();
+        setIsPlaying(true);
+      });
+      navigator.mediaSession.setActionHandler('pause', () => {
+        player?.pauseVideo();
+        setIsPlaying(false);
+      });
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        const list = playlists[activeLang];
+        const currentIndex = list.findIndex(s => s.id === currentSong.id);
+        const prevSong = list[(currentIndex - 1 + list.length) % list.length];
+        if (currentSong.id !== prevSong.id) {
+          setCurrentSong(prevSong);
+          setIsPlaying(true);
+        }
+      });
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        const list = playlists[activeLang];
+        const currentIndex = list.findIndex(s => s.id === currentSong.id);
+        const nextSong = list[(currentIndex + 1) % list.length];
+        if (currentSong.id !== nextSong.id) {
+          setCurrentSong(nextSong);
+          setIsPlaying(true);
+        }
+      });
+    }
+  }, [currentSong, player, activeLang, playlists]);
+
   const handlePlay = (song: typeof currentSong) => {
     if (currentSong.id === song.id) {
       if (isPlaying) {
@@ -171,6 +212,7 @@ export default function MusicPlayer() {
       modestbranding: 1,
       rel: 0,
       showinfo: 0,
+      playsinline: 1,
     },
   };
 
