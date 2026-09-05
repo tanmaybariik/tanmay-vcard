@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 
 export default function ContactButtons() {
   return (
-    <div className="w-full">
-      <h2 className="text-[11px] font-bold tracking-[0.15em] text-[#A2C7EE] mb-4 pl-1 uppercase opacity-90">CONTACT ME</h2>
-      <div className="grid grid-cols-3 gap-2">
+    <div className="w-full pt-3">
+      <h2 className="text-[11px] font-bold tracking-[0.15em] text-[#A2C7EE] mb-3.5 pl-1 uppercase opacity-90">CONTACT ME</h2>
+      <div className="grid grid-cols-3 gap-2.5">
         <motion.a 
           whileHover={{ scale: 1.03, backgroundColor: "rgba(28,35,51,0.6)", borderColor: "rgba(59,130,246,0.5)" }}
           whileTap={{ scale: 0.94 }}

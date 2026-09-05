@@ -7,7 +7,6 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 import SocialLinks from '@/components/SocialLinks';
 import AddContact from '@/components/AddContact';
 import Footer from '@/components/Footer';
-import LoadingScreen from '@/components/LoadingScreen';
 import ContactButtons from '@/components/ContactButtons';
 
 // Lazy loaded heavy components
@@ -39,17 +38,15 @@ const itemVariants: Variants = {
 export default function Home() {
   return (
     <main className="relative min-h-screen w-full bg-[#050812] text-foreground flex flex-col items-center overflow-x-hidden selection:bg-primary-glow/30">
-      <LoadingScreen />
       <AnimatedBackground />
       <VisitorCounter />
 
-      <motion.div
+        <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="show"
-        className="z-10 mx-auto w-full max-w-[430px] min-w-0 flex flex-col items-center px-3 sm:px-4 py-[20px] pt-[72px] mb-10 box-border"
+        className="z-10 mx-auto w-full max-w-[430px] min-w-0 flex flex-col items-center px-3 sm:px-4 py-[20px] pt-[72px] mb-10 box-border gap-7 sm:gap-8"
       >
-
         {/* Hero Section */}
         <motion.section
           variants={itemVariants}
@@ -124,22 +121,19 @@ export default function Home() {
           </div>
         </motion.section>
 
-        {/* Space between Hero and Connect With Me */}
-        <div className="h-8 sm:h-10 w-full" />
-
-        <motion.div variants={itemVariants} className="w-full flex justify-center mb-6">
+        <motion.div variants={itemVariants} className="w-full">
           <SocialLinks />
         </motion.div>
 
-        <motion.div variants={itemVariants} className="w-full flex justify-center mb-6">
+        <motion.div variants={itemVariants} className="w-full">
           <ContactButtons />
         </motion.div>
 
-        <motion.div variants={itemVariants} className="w-full flex justify-center mb-6">
+        <motion.div variants={itemVariants} className="w-full">
           <AddContact />
         </motion.div>
 
-        <motion.div variants={itemVariants} className="w-full grid grid-cols-2 gap-3 mb-6">
+        <motion.div variants={itemVariants} className="w-full grid grid-cols-2 gap-4">
           <div className="w-full overflow-hidden">
             <WorldClock />
           </div>
@@ -148,12 +142,15 @@ export default function Home() {
           </div>
         </motion.div>
 
-        <motion.div variants={itemVariants} className="w-full flex flex-col gap-3 mb-6">
-          <div className="w-full"><AboutSection /></div>
-          <div className="w-full"><GamesHub /></div>
+        <motion.div variants={itemVariants} className="w-full">
+          <AboutSection />
+        </motion.div>
+        
+        <motion.div variants={itemVariants} className="w-full">
+          <GamesHub />
         </motion.div>
 
-        <motion.div variants={itemVariants} className="w-full">
+        <motion.div variants={itemVariants} className="w-full mt-4">
           <Footer />
         </motion.div>
       </motion.div>

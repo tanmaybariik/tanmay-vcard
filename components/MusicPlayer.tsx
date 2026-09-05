@@ -5,23 +5,14 @@ import { ChevronLeft, ChevronDown, Volume2, Play, Pause, SkipForward, SkipBack, 
 import { motion, AnimatePresence } from 'framer-motion';
 import YouTube, { YouTubeProps, YouTubePlayer } from 'react-youtube';
 import Image from 'next/image';
+import { Bengali } from '../bengali_playlist';
+import { English } from '../english_playlist';
+import { Hindi } from '../hindi_playlist';
 
 const initialPlaylists = {
-  Bengali: [
-    { id: 'b1', title: 'Ekla Cholo Re', artist: 'Kishore Kumar', ytId: '1wP_eH1n8Qc', lyrics: "Jodi tor dak shune keu na ashe tobe ekla cholo re...\n\nEkla cholo, ekla cholo, ekla cholo, ekla cholo re.\nJodi keu kotha na koy, ore ore o obhaga,\nJodi sobai thake mukh phiraye sobai kore bhoy—\nTobe poran khule\nO tui mukh phute tor moner kotha ekla bolo re." },
-    { id: 'b2', title: 'Ami Je Tomar', artist: 'Shreya Ghoshal', ytId: 'bB4g8lM9M1c', lyrics: "Ami je tomar, shudhu je tomar...\nAmi je tomar.\n\nMeri chaahatein toh fiza mein bahengi,\nZinda rahengi hoke fanaa.\nTana dere na, tana dere na..." },
-    { id: 'b3', title: 'Boba Tunnel', artist: 'Anupam Roy', ytId: '5Z13V0vYI7g', lyrics: "Hashte dekho gaite dekho,\nAnek kothay mukhor amay dekho.\nDekho na keu hasir seshe nirobota...\n\nBoba tunnel er bhetor amay dekho na,\nJekhane ondhokar aar shudhu hothat kanna." },
-  ],
-  Hindi: [
-    { id: 'h1', title: 'Tum Hi Ho', artist: 'Arijit Singh', ytId: 'Umqb9KENgmk', lyrics: "Hum tere bin ab reh nahi sakte\nTere bina kya wajood mera\n\nTujhse juda gar ho jaayenge\nToh khud se hi ho jaayenge judaa\n\nKyunki tum hi ho\nAb tum hi ho\nZindagi ab tum hi ho" },
-    { id: 'h2', title: 'Channa Mereya', artist: 'Arijit Singh', ytId: 'bzSTpdcs-EI', lyrics: "Acha chalta hoon\nDuaaon mein yaad rakhna\nMere zikr ka zubaan pe swaad rakhna\n\nDil ke sandookon mein\nMere acche kaam rakhna\nChitthi taaron mein bhi\nMera tu salaam rakhna\n\nAndhera tera maine le liya\nMera ujla sitaara tere naam kiya\nChanna mereya mereya\nChanna mereya mereya\nChanna mereya mereya beliya\nO piya..." },
-    { id: 'h3', title: 'Apna Bana Le', artist: 'Arijit Singh', ytId: 'cdqA4QzC0fI', lyrics: "Tu mera koi na\nHoke bhi kuch laage\nTu mera koi na\nHoke bhi kuch laage\n\nKiya re jo bhi toone\nKaise kiya re\nJiya ko mere baandh\nAise liya re\nSamajh ke bhi na\nSamajh main saku\n\nApna bana le piya\nApna bana le piya" },
-  ],
-  English: [
-    { id: 'e1', title: 'Shape of You', artist: 'Ed Sheeran', ytId: 'JGwWNGJdvx8', lyrics: "The club isn't the best place to find a lover\nSo the bar is where I go\nMe and my friends at the table doing shots\nDrinking fast and then we talk slow\n\nI'm in love with the shape of you\nWe push and pull like a magnet do\nAlthough my heart is falling too\nI'm in love with your body" },
-    { id: 'e2', title: 'Blinding Lights', artist: 'The Weeknd', ytId: '4NRXx6U8ABQ', lyrics: "I've been tryna call\nI've been on my own for long enough\nMaybe you can show me how to love, maybe\n\nI'm blinded by the lights\nNo, I can't sleep until I feel your touch\nI said, ooh, I'm drowning in the night\nOh, when I'm like this, you're the one I trust" },
-    { id: 'e3', title: 'Starboy', artist: 'The Weeknd', ytId: '34Na4j8HLjc', lyrics: "I'm tryna put you in the worst mood, ah\nP1 cleaner than your church shoes, ah\nMilli point two just to hurt you, ah\nAll red Lamb' just to tease you, ah\n\nLook what you've done\nI'm a motherfuckin' starboy" },
-  ]
+  Bengali: Bengali,
+  Hindi: Hindi,
+  English: English
 };
 
 type Language = keyof typeof initialPlaylists;
@@ -327,132 +318,81 @@ export default function MusicPlayer() {
 
       {typeof window !== 'undefined' && createPortal(
         <div
-          className={`fixed inset-0 z-[100] flex items-center justify-center transition-colors duration-150 ${isOpen ? 'bg-black/40 pointer-events-auto' : 'bg-transparent pointer-events-none'
+          className={`fixed inset-0 z-[100] flex items-end justify-center transition-opacity duration-200 ${isOpen ? 'bg-black/50 backdrop-blur-sm pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsOpen(false);
+          }}
         >
           <motion.div
             initial={false}
             animate={{
               y: isOpen ? 0 : "100%",
-              opacity: isOpen ? 1 : 0
             }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-            className="w-full h-full bg-[#030712] relative flex flex-col overflow-y-auto overflow-x-hidden max-w-[430px] mx-auto shadow-2xl pointer-events-auto custom-scrollbar"
+            transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
+            className="w-full h-[92vh] bg-[#1c1c1e] rounded-t-[32px] relative flex flex-col overflow-hidden max-w-[500px] mx-auto shadow-2xl pointer-events-auto border-t border-white/10"
             style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
           >
-            {/* Ambient Background Glows */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-[#3B82F6]/10 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-1/4 right-0 w-[250px] h-[250px] bg-[#8B5CF6]/10 rounded-full blur-[100px] pointer-events-none" />
+            {/* Draggable indicator / Header */}
+            <div className="w-full flex justify-center pt-4 pb-2 shrink-0 cursor-pointer" onClick={() => setIsOpen(false)}>
+              <div className="w-10 h-1.5 bg-white/20 rounded-full" />
+            </div>
 
-            <div className="relative z-10 flex flex-col h-full w-full px-5 pt-10 pb-8">
-
-              {/* Top Header */}
-              <div className="flex justify-between items-center w-full mb-6 shrink-0">
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <div className="flex items-center gap-2">
-                  <Music className="w-4 h-4 text-[#3B82F6]" />
-                  <h2 className="text-[11px] font-bold tracking-[0.2em] text-[#8F9BB3] uppercase">
-                    NOW PLAYING
-                  </h2>
-                </div>
-                <button
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors"
-                >
-                  <AlignLeft className="w-5 h-5" />
-                </button>
+            <div className="flex-1 overflow-y-auto overflow-x-hidden px-6 pb-8 custom-scrollbar">
+              {/* Album Art / YouTube Player */}
+              <div className="w-full aspect-square rounded-[12px] overflow-hidden bg-black shadow-[0_20px_40px_rgba(0,0,0,0.4)] relative shrink-0 mt-4 mb-8">
+                <YouTube
+                  videoId={currentSong.ytId}
+                  opts={{ ...opts, width: '100%', height: '100%' }}
+                  onReady={onReady}
+                  onStateChange={onStateChange}
+                  className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center" 
+                  iframeClassName="w-[180%] h-[180%] max-w-none"
+                />
+                <div className="absolute inset-0 z-10 bg-transparent cursor-pointer" onClick={() => {
+                  if (isPlaying) {
+                    player?.pauseVideo();
+                    setIsPlaying(false);
+                  } else {
+                    player?.playVideo();
+                    setIsPlaying(true);
+                  }
+                }} />
               </div>
 
-              {/* Main Player Card */}
-              <div className="w-full flex flex-col rounded-[24px] bg-[#1C2333]/40 border border-[#3B82F6]/30 shadow-[0_0_30px_rgba(59,130,246,0.1)] p-4 mb-6 shrink-0 backdrop-blur-md">
-
-                {/* Internal Card Header */}
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full overflow-hidden relative border border-white/10 shadow-sm shrink-0">
-                      <Image
-                        src={`https://i.ytimg.com/vi/${currentSong.ytId}/hqdefault.jpg`}
-                        alt="Tiny Art"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex flex-col min-w-0 pr-2">
-                      <span className="text-white text-[13px] font-bold leading-tight truncate">{currentSong.title}</span>
-                      <span className="text-white/50 text-[10px] leading-tight truncate">YouTube Audio</span>
-                    </div>
+              {/* Track Info & Controls */}
+              <div className="w-full flex flex-col mb-8">
+                <div className="flex justify-between items-center w-full mb-6">
+                  <div className="flex flex-col overflow-hidden min-w-0 pr-4">
+                    <h1 className="text-[22px] font-bold text-white mb-0.5 truncate tracking-tight">{currentSong.title}</h1>
+                    <p className="text-[16px] text-white/60 truncate">{currentSong.artist}</p>
                   </div>
-                  <button className="text-white/60 hover:text-white transition-colors shrink-0">
+                  <button className="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white/70 hover:bg-white/20 hover:text-white transition-colors shrink-0">
                     <MoreVertical className="w-5 h-5" />
                   </button>
                 </div>
 
-                {/* Album Art / YouTube Video Player */}
-                <div className="w-full aspect-video rounded-[16px] overflow-hidden bg-black shadow-inner relative shrink-0 mb-4">
-                  <YouTube
-                    videoId={currentSong.ytId}
-                    opts={{ ...opts, width: '100%', height: '100%' }}
-                    onReady={onReady}
-                    onStateChange={onStateChange}
-                    className="absolute inset-0 w-full h-full pointer-events-none"
-                    iframeClassName="w-full h-full"
+                {/* Progress Bar */}
+                <div className="flex flex-col w-full mb-8">
+                  <input
+                    type="range"
+                    min={0}
+                    max={duration || 100}
+                    value={currentTime}
+                    onChange={handleSeek}
+                    className="w-full h-1.5 bg-white/20 rounded-full appearance-none outline-none cursor-pointer accent-white mb-2"
+                    style={{
+                      background: `linear-gradient(to right, white 0%, white ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.2) ${(currentTime / (duration || 1)) * 100}%)`
+                    }}
                   />
-                  {/* Overlay to prevent clicking iframe directly */}
-                  <div className="absolute inset-0 z-10 bg-transparent cursor-pointer" onClick={() => {
-                    if (isPlaying) {
-                      player?.pauseVideo();
-                      setIsPlaying(false);
-                    } else {
-                      player?.playVideo();
-                      setIsPlaying(true);
-                    }
-                  }} />
-                </div>
-
-                {/* Track Info */}
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex flex-col overflow-hidden pr-4 min-w-0">
-                    <motion.h1
-                      className="text-[22px] font-bold text-white mb-1 whitespace-nowrap truncate"
-                    >
-                      {currentSong.title}
-                    </motion.h1>
-                    <p className="text-[#3B82F6] text-[14px] font-medium tracking-wide truncate">{currentSong.artist}</p>
+                  <div className="flex justify-between w-full">
+                    <span className="text-[11px] font-medium text-white/50">{formatTime(currentTime)}</span>
+                    <span className="text-[11px] font-medium text-white/50">-{formatTime(duration - currentTime > 0 ? duration - currentTime : 0)}</span>
                   </div>
-                  <button className="w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-white/70 hover:bg-white/5 hover:text-white transition-colors shrink-0">
-                    <Heart className="w-5 h-5" />
-                  </button>
                 </div>
-              </div>
 
-              {/* Progress Bar */}
-              <div className="flex items-center gap-3 w-full mb-8 shrink-0 px-1">
-                <span className="text-[11px] font-medium text-[#8F9BB3] w-8 text-right shrink-0">{formatTime(currentTime)}</span>
-                <input
-                  type="range"
-                  min={0}
-                  max={duration || 100}
-                  value={currentTime}
-                  onChange={handleSeek}
-                  className="flex-1 h-1 bg-white/10 rounded-full appearance-none outline-none overflow-hidden cursor-pointer accent-[#3B82F6]"
-                  style={{
-                    background: `linear-gradient(to right, #8B5CF6 0%, #3B82F6 ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.1) ${(currentTime / (duration || 1)) * 100}%)`
-                  }}
-                />
-                <span className="text-[11px] font-medium text-[#8F9BB3] w-8 shrink-0">{formatTime(duration)}</span>
-              </div>
-
-              {/* Playback Controls */}
-              <div className="flex items-center justify-between px-2 mb-8 w-full shrink-0">
-                <button className="text-[#8F9BB3] hover:text-white transition-colors">
-                  <Shuffle className="w-5 h-5" />
-                </button>
-
-                <div className="flex items-center gap-6">
+                {/* Playback Controls */}
+                <div className="flex items-center justify-center gap-12 w-full mb-8">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -461,33 +401,30 @@ export default function MusicPlayer() {
                       const prevSong = list[(currentIndex - 1 + list.length) % list.length];
                       handlePlay(prevSong);
                     }}
-                    className="p-2 text-white hover:text-[#3B82F6] transition-colors active:scale-90"
+                    className="text-white hover:text-white/70 transition-colors active:scale-90"
                   >
-                    <SkipBack className="w-7 h-7" fill="currentColor" />
+                    <SkipBack className="w-10 h-10" fill="currentColor" />
                   </button>
 
-                  <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-[#3B82F6] to-[#8B5CF6] rounded-full blur-[8px] opacity-60 pointer-events-none" />
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (isPlaying) {
-                          player?.pauseVideo();
-                          setIsPlaying(false);
-                        } else {
-                          player?.playVideo();
-                          setIsPlaying(true);
-                        }
-                      }}
-                      className="relative w-16 h-16 flex items-center justify-center rounded-full bg-[#1C2333] border-2 border-[#3B82F6]/50 text-white hover:scale-105 active:scale-95 transition-all shadow-lg"
-                    >
-                      {isPlaying ? (
-                        <Pause className="w-7 h-7" fill="currentColor" />
-                      ) : (
-                        <Play className="w-7 h-7 ml-1" fill="currentColor" />
-                      )}
-                    </button>
-                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (isPlaying) {
+                        player?.pauseVideo();
+                        setIsPlaying(false);
+                      } else {
+                        player?.playVideo();
+                        setIsPlaying(true);
+                      }
+                    }}
+                    className="w-[72px] h-[72px] flex items-center justify-center rounded-full bg-white text-[#1c1c1e] hover:scale-105 active:scale-95 transition-all shadow-lg"
+                  >
+                    {isPlaying ? (
+                      <Pause className="w-8 h-8" fill="currentColor" />
+                    ) : (
+                      <Play className="w-8 h-8 ml-1" fill="currentColor" />
+                    )}
+                  </button>
 
                   <button
                     onClick={(e) => {
@@ -497,26 +434,22 @@ export default function MusicPlayer() {
                       const nextSong = list[(currentIndex + 1) % list.length];
                       handlePlay(nextSong);
                     }}
-                    className="p-2 text-white hover:text-[#3B82F6] transition-colors active:scale-90"
+                    className="text-white hover:text-white/70 transition-colors active:scale-90"
                   >
-                    <SkipForward className="w-7 h-7" fill="currentColor" />
+                    <SkipForward className="w-10 h-10" fill="currentColor" />
                   </button>
                 </div>
-
-                <button className="text-[#8F9BB3] hover:text-white transition-colors">
-                  <Repeat className="w-5 h-5" />
-                </button>
               </div>
 
-              {/* Language Tabs */}
-              <div className="flex w-full bg-white/[0.03] rounded-full p-1 border border-white/5 shrink-0 mb-6 relative overflow-hidden">
+              {/* Language Tabs / iOS Segmented Control */}
+              <div className="flex w-full bg-black/40 rounded-[12px] p-1 shrink-0 mb-6 relative overflow-hidden">
                 {(Object.keys(playlists) as Language[]).map(lang => (
                   <button
                     key={lang}
                     onClick={() => setActiveLang(lang)}
-                    className={`flex-1 py-2.5 text-[12px] font-bold tracking-wider uppercase rounded-full transition-all relative z-10 ${activeLang === lang
+                    className={`flex-1 py-3 text-[16px] font-bold tracking-wide rounded-[10px] transition-all relative z-10 ${activeLang === lang
                         ? 'text-white shadow-sm'
-                        : 'text-[#8F9BB3] hover:text-white/80'
+                        : 'text-white/60 hover:text-white'
                       }`}
                   >
                     {lang}
@@ -524,7 +457,7 @@ export default function MusicPlayer() {
                 ))}
                 {/* Active pill background */}
                 <div
-                  className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] transition-all duration-300 ease-out shadow-[0_0_15px_rgba(59,130,246,0.3)] z-0"
+                  className="absolute top-1 bottom-1 rounded-[10px] bg-[#3B3B3B] transition-all duration-300 ease-out z-0"
                   style={{
                     width: `calc(100% / ${Object.keys(playlists).length} - 8px)`,
                     transform: `translateX(calc(${Object.keys(playlists).indexOf(activeLang)} * 100% + ${Object.keys(playlists).indexOf(activeLang) * 8}px))`
@@ -532,57 +465,17 @@ export default function MusicPlayer() {
                 />
               </div>
 
-              {/* Custom Link Input */}
-              <div className="w-full mb-8 shrink-0 flex gap-2">
-                <div className="flex-1 relative">
-                  <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8F9BB3]" />
-                  <input
-                    type="text"
-                    value={linkInput}
-                    onChange={(e) => handleAddLink(e.target.value)}
-                    placeholder="Paste YouTube Link here..."
-                    className="w-full h-[48px] bg-[#1C2333]/40 border border-white/10 rounded-[16px] pl-11 pr-4 text-[13px] text-white placeholder-[#8F9BB3] outline-none focus:border-[#3B82F6]/50 transition-colors shadow-inner backdrop-blur-sm"
-                  />
-                  {isAddingSong && (
-                    <div className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-[#3B82F6] border-t-transparent rounded-full animate-spin" />
-                  )}
-                </div>
-                <button
-                  onClick={() => handleAddLink(linkInput)}
-                  className="w-[48px] h-[48px] flex items-center justify-center rounded-[16px] bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white hover:opacity-90 transition-opacity shadow-[0_0_15px_rgba(59,130,246,0.3)] shrink-0"
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Playlist Section Header */}
-              <div className="flex justify-between items-center w-full mb-4 px-1 shrink-0">
-                <span className="text-[11px] font-bold tracking-[0.2em] text-[#8F9BB3] uppercase">PLAYLIST</span>
-                <div className="flex items-center gap-1">
-                  <div className="flex gap-[2px] items-end h-3">
-                    <motion.div animate={{ height: ["3px", "8px", "3px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-[2px] bg-[#3B82F6] rounded-t-sm" />
-                    <motion.div animate={{ height: ["3px", "6px", "3px"] }} transition={{ repeat: Infinity, duration: 0.5, delay: 0.2 }} className="w-[2px] bg-[#3B82F6] rounded-t-sm" />
-                    <motion.div animate={{ height: ["3px", "10px", "3px"] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-[2px] bg-[#3B82F6] rounded-t-sm" />
-                    <motion.div animate={{ height: ["3px", "7px", "3px"] }} transition={{ repeat: Infinity, duration: 0.7, delay: 0.1 }} className="w-[2px] bg-[#3B82F6] rounded-t-sm" />
-                  </div>
-                  <span className="text-[10px] font-bold tracking-[0.1em] text-[#3B82F6] uppercase ml-1">NOW PLAYING</span>
-                </div>
-              </div>
-
-              {/* Up Next List */}
-              <div className="flex-1 flex flex-col gap-2 pb-6">
+              {/* Playlist items */}
+              <div className="flex flex-col gap-1 w-full pb-8">
                 {playlists[activeLang].map((song) => {
                   const isActive = currentSong.id === song.id;
                   return (
                     <div
                       key={song.id}
                       onClick={() => handlePlay(song)}
-                      className={`group flex items-center p-3 rounded-2xl cursor-pointer transition-all border ${isActive
-                          ? 'bg-[#1C2333]/60 border-[#3B82F6]/30 shadow-[0_0_15px_rgba(59,130,246,0.1)] backdrop-blur-md'
-                          : 'bg-transparent border-transparent hover:bg-white/[0.04]'
-                        }`}
+                      className={`group flex items-center py-2 px-1 rounded-xl cursor-pointer transition-all ${isActive ? 'bg-white/5' : 'hover:bg-white/5'}`}
                     >
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 mr-4 overflow-hidden relative shadow-md transition-transform group-hover:scale-105 ${isActive ? 'ring-1 ring-[#3B82F6]/50' : ''}`}>
+                      <div className="w-12 h-12 rounded-[6px] flex items-center justify-center shrink-0 mr-3 overflow-hidden relative shadow-sm">
                         <Image
                           src={`https://i.ytimg.com/vi/${song.ytId}/hqdefault.jpg`}
                           alt="Thumbnail"
@@ -591,43 +484,52 @@ export default function MusicPlayer() {
                           className="object-cover"
                         />
                         {isActive && isPlaying && (
-                          <div className="absolute inset-0 bg-[#3B82F6]/20 backdrop-blur-[2px] flex items-center justify-center">
-                            <Play className="w-4 h-4 text-white drop-shadow-md ml-0.5" fill="currentColor" />
+                          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex items-center justify-center">
+                            <motion.div className="flex gap-[2px] items-end h-3">
+                              <motion.div animate={{ height: ["3px", "8px", "3px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-0.5 bg-white rounded-t-sm" />
+                              <motion.div animate={{ height: ["3px", "6px", "3px"] }} transition={{ repeat: Infinity, duration: 0.5, delay: 0.2 }} className="w-0.5 bg-white rounded-t-sm" />
+                              <motion.div animate={{ height: ["3px", "10px", "3px"] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-0.5 bg-white rounded-t-sm" />
+                            </motion.div>
                           </div>
                         )}
                         {(!isActive || !isPlaying) && (
                           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                            <Play className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow-md ml-0.5" fill="currentColor" />
+                            <Play className="w-4 h-4 text-white opacity-0 group-hover:opacity-100 transition-opacity ml-0.5" fill="currentColor" />
                           </div>
                         )}
                       </div>
-                      <div className="flex flex-col flex-1 min-w-0 pr-2">
-                        <span className={`text-[14px] font-bold truncate tracking-wide transition-colors ${isActive ? 'text-white' : 'text-[#E2E8F0] group-hover:text-white'}`}>{song.title}</span>
-                        <span className={`text-[12px] truncate mt-0.5 transition-colors ${isActive ? 'text-[#3B82F6]' : 'text-[#8F9BB3]'}`}>{song.artist}</span>
-                      </div>
-
-                      <div className="flex items-center gap-3 shrink-0">
-                        {isActive && (
-                          <div className="flex gap-[3px] items-end h-3 mr-2">
-                            <motion.div animate={{ height: ["3px", "8px", "3px"] }} transition={{ repeat: Infinity, duration: 0.8 }} className="w-0.5 bg-[#3B82F6] rounded-t-sm shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
-                            <motion.div animate={{ height: ["3px", "6px", "3px"] }} transition={{ repeat: Infinity, duration: 0.5, delay: 0.2 }} className="w-0.5 bg-[#3B82F6] rounded-t-sm shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
-                            <motion.div animate={{ height: ["3px", "10px", "3px"] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} className="w-0.5 bg-[#3B82F6] rounded-t-sm shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
-                          </div>
-                        )}
-                        <span className="text-[11px] font-medium text-[#8F9BB3]">
-                          {isActive ? formatTime(duration) : '0:00'}
-                        </span>
-                        <button className="text-[#8F9BB3] hover:text-white transition-colors p-1">
-                          <MoreVertical className="w-4 h-4" />
-                        </button>
+                      <div className="flex flex-col flex-1 min-w-0 pr-2 border-b border-white/5 pb-1 pt-1 group-hover:border-transparent">
+                        <span className={`text-[15px] font-medium truncate transition-colors ${isActive ? 'text-white' : 'text-white'}`}>{song.title}</span>
+                        <span className={`text-[13px] truncate transition-colors ${isActive ? 'text-white/60' : 'text-white/40'}`}>{song.artist}</span>
                       </div>
                     </div>
                   );
                 })}
-
-                {/* Padding at the bottom */}
-                <div className="w-full h-6" />
               </div>
+
+              {/* Add Custom Song */}
+              <div className="w-full flex gap-2 pt-2 pb-8">
+                <div className="flex-1 relative">
+                  <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+                  <input
+                    type="text"
+                    value={linkInput}
+                    onChange={(e) => handleAddLink(e.target.value)}
+                    placeholder="Add YouTube Link..."
+                    className="w-full h-[40px] bg-white/5 rounded-[8px] pl-10 pr-4 text-[13px] text-white placeholder-white/30 outline-none focus:bg-white/10 transition-colors"
+                  />
+                  {isAddingSong && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 border-2 border-white/50 border-t-transparent rounded-full animate-spin" />
+                  )}
+                </div>
+                <button
+                  onClick={() => handleAddLink(linkInput)}
+                  className="w-[40px] h-[40px] flex items-center justify-center rounded-[8px] bg-white text-black hover:opacity-90 transition-opacity shrink-0"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+              </div>
+
             </div>
           </motion.div>
         </div>,

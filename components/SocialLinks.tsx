@@ -20,12 +20,12 @@ const links = [
 
 export default function SocialLinks() {
   return (
-    <div className="w-full mt-2">
-      <h2 className="text-[11px] font-bold tracking-[0.15em] text-[#A2C7EE] mb-4 pl-1 uppercase opacity-90">
+    <div className="w-full pt-3">
+      <h2 className="text-[11px] font-bold tracking-[0.15em] text-[#A2C7EE] mb-3.5 pl-1 uppercase opacity-90">
         CONNECT WITH ME
       </h2>
       
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3.5">
         {links.map((link) => (
           <a
             key={link.name}

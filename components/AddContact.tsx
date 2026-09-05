@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 export default function AddContact() {
   return (
-    <div className="w-full mt-1">
+    <div className="w-full">
       <motion.a 
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
