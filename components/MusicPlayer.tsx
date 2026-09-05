@@ -328,7 +328,7 @@ export default function MusicPlayer() {
 
       {typeof window !== 'undefined' && createPortal(
         <div
-          className={`fixed inset-0 z-[100] flex items-center justify-center transition-colors duration-500 ${isOpen ? 'bg-black/40 pointer-events-auto' : 'bg-transparent pointer-events-none'
+          className={`fixed inset-0 z-[100] flex items-center justify-center transition-colors duration-150 ${isOpen ? 'bg-black/40 pointer-events-auto' : 'bg-transparent pointer-events-none'
             }`}
         >
           <motion.div
@@ -337,7 +337,7 @@ export default function MusicPlayer() {
               y: isOpen ? 0 : "100%",
               opacity: isOpen ? 1 : 0
             }}
-            transition={{ type: 'spring', stiffness: 200, damping: 30, mass: 1 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
             className="w-full h-full bg-[#030712] relative flex flex-col overflow-y-auto overflow-x-hidden max-w-[430px] mx-auto shadow-2xl pointer-events-auto custom-scrollbar"
             style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
           >
